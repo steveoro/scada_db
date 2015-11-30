@@ -1,0 +1,54 @@
+# Ignore engine-specific config
+.bundle/
+log/*.log
+pkg/
+test/dummy/db/*.sqlite3
+test/dummy/db/*.sqlite3-journal
+test/dummy/log/*.log
+test/dummy/tmp/
+test/dummy/.sass-cache
+test/dummy/config/*.yml
+spec/dummy/db/*.sqlite3
+spec/dummy/db/*.sqlite3-journal
+spec/dummy/log/*.log
+spec/dummy/tmp/
+spec/dummy/.sass-cache
+spec/dummy/config/*.yml
+
+# Ignore bundler config
+/.bundle
+/.project
+/.coveralls.yml
+/.git
+/.git/*
+/.settings
+/.settings/*
+custom_plan.rb
+zeus.json
+
+# Ignore all logfiles and tempfiles.
+!/log/.keep
+/log/*.log
+/log/*.ok
+/log/*.sql
+/tmp
+
+# Ignore downloaded gems and packages:
+/vendor/cache/*
+
+# Include or exclude precompiled assets into repository (to avoid precompiling on production/staging)
+#/public/assets/*
+
+# Ignore password-containing files and sensitive directories:
+/config/*.yml
+/config/deploy.rb
+/config/deploy/*
+
+# Ignore auto-generated files:
+/db/schema.rb
+db/schema.rb
+db/schema.*
+/coverage/*
+coverage/*
+coverage/assets/*
+coverage/index.html

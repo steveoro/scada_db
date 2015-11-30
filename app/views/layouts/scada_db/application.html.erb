@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ScadaDb</title>
+  <%= stylesheet_link_tag    "scada_db/application", media: "all" %>
+  <%= javascript_include_tag "scada_db/application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+   <p class="notice"><%= notice || flash[:info] %></p>
+   <p class="alert"><%= alert || flash[:warning %></p>
+
+    <%= yield %>
+
+</body>
+</html>
