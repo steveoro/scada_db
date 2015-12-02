@@ -1,8 +1,9 @@
 PATH
   remote: .
   specs:
-    scada_db (0.0.1)
+    scada_db (0.0.1.20151201)
       devise
+      mysql2
       rails (~> 4.2.5)
 
 GEM
@@ -182,12 +183,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  devise
   factory_girl_rails
   ffaker
   guard
   guard-rspec
   guard-shell
   mysql2
+  rails (~> 4.2.5)
   rspec
   rspec-rails
   scada_db!

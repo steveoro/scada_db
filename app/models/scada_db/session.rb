@@ -1,6 +1,6 @@
 module ScadaDb
-  class Device < ActiveRecord::Base
+  class Session < ActiveRecord::Base
     # Avoid module namespace in table names:
-    self.table_name = "devices"
+    self.table_name = "sessions"
   end
 end
