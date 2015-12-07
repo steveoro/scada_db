@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors     = ["steveoro"]
   s.email       = ["steve.alloro@gmail.com"]
   s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of ScadaDb."
-  s.description = "TODO: Description of ScadaDb."
+  s.summary     = "Base DB structure for ScadaSupervisor project"
+  s.description = "DB structure for ScadaSupervisor project: shared models & migrations"
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
