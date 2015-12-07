@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = ScadaDb::VERSION
   s.authors     = ["steveoro"]
   s.email       = ["steve.alloro@gmail.com"]
-  s.homepage    = "TODO"
+  s.homepage    = "https://github.com/steveoro/scada_db"
   s.summary     = "Base DB structure for ScadaSupervisor project"
   s.description = "DB structure for ScadaSupervisor project: shared models & migrations"
   s.license     = "MIT"
