@@ -14,7 +14,12 @@ Gem::Specification.new do |s|
   s.description = "DB structure for ScadaSupervisor project: shared models & migrations"
   s.license     = "MIT"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir[
+    "{app,config,db,lib}/**/*",
+    "MIT-LICENSE",
+    "Rakefile",
+    "README.md"
+  ]
 
   s.add_dependency "rails", "~> 4.2.5"
   s.add_dependency "mysql2"
