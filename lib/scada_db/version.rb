@@ -12,10 +12,10 @@ module ScadaDb
   VERSION_MAJOR   = '0'
 
   # Minor version.
-  VERSION_MINOR   = '0.1'
+  VERSION_MINOR   = '0.2'
 
   # Current build version.
-  VERSION_BUILD   = '20151201'
+  VERSION_BUILD   = '20151207'
 
   # Full versioning for the current release.
   VERSION = "#{VERSION_MAJOR}.#{VERSION_MINOR}.#{VERSION_BUILD}"

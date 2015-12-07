@@ -2,6 +2,18 @@ require 'rails_helper'
 
 module ScadaDb
   RSpec.describe Device, type: :model do
-    pending "add some examples to (or delete) #{__FILE__}"
+    context "[a well formed instance]" do
+      subject { FactoryGirl.create(:scada_db_device) }
+
+      it "is a valid istance" do
+        expect( subject ).to be_valid
+      end
+
+      it_behaves_like( "(the existance of a method)", [
+        :name, :description
+      ])
+    end
+    #-- -----------------------------------------------------------------------
+    #++
   end
 end

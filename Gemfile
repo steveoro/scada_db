@@ -10,6 +10,14 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
+# jquery-rails is used by the dummy application
+gem "jquery-rails"
+gem "haml"
+
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 
+group :development do
+  gem "guard"
+  gem "guard-rspec", require: false
+end
