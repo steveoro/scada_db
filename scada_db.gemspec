@@ -20,9 +20,6 @@ Gem::Specification.new do |s|
   s.add_dependency "mysql2"
   s.add_dependency "devise"
 
-  s.add_development_dependency "rails", "~> 4.2.5"
-  s.add_development_dependency "mysql2"
-  s.add_development_dependency "devise"
   s.add_development_dependency "guard"
   s.add_development_dependency "guard-rspec"
   s.add_development_dependency "guard-shell"
