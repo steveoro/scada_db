@@ -6,6 +6,7 @@ require 'find'
 require 'fileutils'
 
 require 'common/format'
+require 'scada_db/version'
 
 
 =begin
