@@ -1,8 +1,0 @@
-Description:
-    Copies the basic structure of the DB into the local mounting app.
-
-Example:
-    rails generate install
-
-    This will create:
-        db/dump/development.sql.bz2

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    scada_db (0.0.2.20151207)
+    scada_db (0.0.3.20151208)
       devise
       mysql2
       rails (~> 4.2.5)

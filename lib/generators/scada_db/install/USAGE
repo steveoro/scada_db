@@ -1,0 +1,18 @@
+Description:
+    Copies the basic structure of the DB into the local mounting app.
+
+Example:
+    rails generate install
+
+    This will create:
+        db/diff.applied
+        db/diff.new
+        db/dump
+        db/dump/development.sql.bz2
+        db/seed
+
+    The first 2 folders can be used to store (and commit) SQL diff/log
+    files to be applied with the dedicated rake task (db:diff_apply)
+
+    To rebuild the DB using the copied dump, use its dedicated rake
+    task db:rebuild_from_dump.
