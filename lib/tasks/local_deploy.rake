@@ -22,7 +22,7 @@ require 'scada_db/version'
 =end
 
 # Script revision number
-SCRIPT_VERSION = '5.00.001'
+SCRIPT_VERSION = '5.00.003'
 
 # Gives current application name
 APP_NAME = Dir.pwd.to_s.split( File::SEPARATOR ).reverse[0]
@@ -143,7 +143,7 @@ Options: [Rails.env=#{Rails.env}]
     puts "*** Task: Compound DB RESET + MIGRATE + SQL:EXEC + DB:SEED ***"
     Rake::Task['app:db:hard_reset'].invoke
     Rake::Task['app:db:migrate'].invoke
-    Rake::Task['app:sql:exec'].invoke
+    Rake::Task['sql:exec'].invoke
     Rake::Task['app:db:seed'].invoke
     puts "Done."
   end
@@ -167,7 +167,7 @@ of the any of the DB structures using the dedicated task "db:rebuild_from_dump".
 Options: [Rails.env=#{Rails.env}]
 
   DESC
-  task :dump => [ 'app:utils:script_status' ] do
+  task :dump => [ 'utils:script_status' ] do
     puts "*** Task: DB dump for quick recovery ***"
                                                     # Prepare & check configuration:
     rails_config  = Rails.configuration
@@ -217,7 +217,7 @@ Options: [Rails.env=#{Rails.env}]
         current Rails.env
 
   DESC
-  task :rebuild_from_dump => [ 'app:utils:script_status' ] do
+  task :rebuild_from_dump => [ 'utils:script_status' ] do
     puts "*** Task: DB rebuild from dump ***"
                                                     # Prepare & check configuration:
     rails_config  = Rails.configuration
@@ -276,7 +276,7 @@ have any suffix.
 Options: [Rails.env=#{Rails.env}]
 
   DESC
-  task :clone_to_test => ['app:utils:script_status', 'app:utils:chk_needed_dirs'] do
+  task :clone_to_test => ['utils:script_status', 'utils:chk_needed_dirs'] do
     puts "*** Task: Clone DB on TEST DB ***"
     if (Rails.env == 'test')
       puts "You must specify either 'development' or 'production'!"
@@ -323,7 +323,7 @@ namespace :sql do
 Options: [db_version=<db_struct_version>] [bzip2=<1>|0]
          [output_dir=#{DB_BACKUP_DIR}] [max_backup_kept=#{MAX_BACKUP_KEPT}] [Rails.env=#{Rails.env}]
   DESC
-  task :dump => ['app:utils:script_status', 'app:utils:chk_needed_dirs'] do
+  task :dump => ['utils:script_status', 'utils:chk_needed_dirs'] do
     puts "*** Task: SQL DB dump ***"
                                                     # Prepare & check configuration:
     rails_config  = Rails.configuration
@@ -371,7 +371,7 @@ Options: [exec_dir=#{DB_SEED_DIR}] [delete=1|<0>]
 - 'delete' allows to kill the executed file after completion; defaults to '0' (false)
 
   DESC
-  task :exec => ['app:utils:script_status', 'app:utils:chk_needed_dirs'] do
+  task :exec => ['utils:script_status', 'utils:chk_needed_dirs'] do
     puts "*** Task: SQL script execute ***"
                                                     # Prepare & check configuration:
     rails_config  = Rails.configuration
@@ -418,7 +418,7 @@ namespace :build do
   #++
 
   desc 'Generic usage for the build tasks defined.'
-  task :help => ['app:utils:script_status'] do
+  task :help => ['utils:script_status'] do
     Rake::Task['stats'].invoke
     puts "Subtasks defined for :build namespace:"
     puts "\t:maintenance\ttoggles maintenance mode for the app"
@@ -442,7 +442,7 @@ plus 2 hours.
     Options: [mode=<1>|0] [end_date=<restore_date_in_parsable_format>]
              [Rails.env=#{Rails.env}]
 DESC
-  task :maintenance => [:environment, 'app:utils:script_status'] do
+  task :maintenance => [:environment, 'utils:script_status'] do
     end_date   = ENV.include?("end_date") ? ENV['end_date'] : nil
     versioning = AppParameter.find_by_code( AppParameter::PARAM_VERSIONING_CODE )
 
@@ -473,7 +473,7 @@ and clearing also the temp output dir.
 
     Options: [output_dir=#{LOG_BACKUP_DIR}] [max_backup_kept=#{MAX_BACKUP_KEPT}]
 DESC
-  task :log_rotate => ['app:utils:script_status', 'app:utils:chk_needed_dirs'] do
+  task :log_rotate => ['utils:script_status', 'utils:chk_needed_dirs'] do
     puts "Saving backups of the current log files..."
                                                     # Prepare & check configuration:
     time_signature  = DateTime.now.strftime("%Y%m%d.%H%M%S")
@@ -500,7 +500,7 @@ DESC
     Dir.chdir( Dir.pwd.to_s )
     puts "Truncating all current log files..."
     Rake::Task['app:log:clear'].invoke
-    Rake::Task['app:utils:clear_output'].invoke
+    Rake::Task['utils:clear_output'].invoke
                                                     # Rotate the backups leaving only the newest ones: (log files are 3-times normal backups)
     rotate_backups( backup_folder, max_backups * 3 )
     puts "Done.\r\n\r\n"
@@ -514,7 +514,7 @@ Creates a tar(bz2) dump file for the whole subtree of the application.
 
     Options: [app_version=#{APP_VERSION}] [output_dir=#{TAR_BACKUP_DIR}]
 DESC
-  task :tar => ['app:build:log_rotate'] do
+  task :tar => ['build:log_rotate'] do
     puts "*** Task: Tar BZip2 Application Backup ***"
                                                     # Prepare & check configuration:
     backup_folder = ENV.include?("output_dir") ? ENV["output_dir"] : TAR_BACKUP_DIR
@@ -546,7 +546,7 @@ Updates the current versioning numbers inside DB table app_parameters.
     Options: [app_version=#{APP_VERSION}] [db_version=<db_struct_version>]
              [Rails.env=#{Rails.env}]
 DESC
-  task :version => [:environment, 'app:utils:script_status'] do
+  task :version => [:environment, 'utils:script_status'] do
     puts "Updating current version number..."
                                                     # Prepare & check configuration:
     time_signature = Date.today.strftime("%Y%m%d")
@@ -572,7 +572,7 @@ Updates the News log table with an entry stating that the application has been u
     Options: [app_version=#{APP_VERSION}] [db_version=<db_struct_version>]
              [Rails.env=#{Rails.env}]
 DESC
-  task :news_log => ['app:build:version'] do
+  task :news_log => ['build:version'] do
                                                     # Prepare & check configuration:
     time_signature = Date.today.strftime("%Y%m%d")
     db_version    = ENV.include?("db_version") ? ENV['db_version'] + '.' + time_signature : nil
@@ -603,7 +603,7 @@ tar file.
     Options: app_version=<application_version> [db_version=<db_struct_version>]
              [Rails.env=#{Rails.env}]
 DESC
-  task :local => ['app:build:news_log','app:build:tar','app:sql:dump'] do
+  task :local => ['build:news_log','build:tar','sql:dump'] do
     puts "BUILD: LOCAL: done."
   end
   #-- -------------------------------------------------------------------------
