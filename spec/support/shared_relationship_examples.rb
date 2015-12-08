@@ -20,5 +20,12 @@ RSpec.shared_examples "(belongs_to required models)" do |attribute_name_array|
     end
   end
 end
+
+
+RSpec.shared_examples "(belongs_to a model with specific namespace)" do |belongs_to_name, actual_expected_class|
+  it "it belongs_to :#{belongs_to_name}" do
+    expect( subject.send(belongs_to_name.to_sym) ).to be_a( actual_expected_class )
+  end
+end
 #-- ---------------------------------------------------------------------------
 #++

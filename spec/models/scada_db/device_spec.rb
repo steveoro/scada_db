@@ -10,7 +10,7 @@ module ScadaDb
       end
 
       it_behaves_like( "(the existance of a method)", [
-        :name, :description
+        :name, :description, :notes
       ])
     end
     #-- -----------------------------------------------------------------------
