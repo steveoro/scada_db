@@ -53,3 +53,5 @@ db/schema.*
 coverage/*
 coverage/assets/*
 coverage/index.html
+spec/dummy/db/schema.rb
+Gemfile.lock
