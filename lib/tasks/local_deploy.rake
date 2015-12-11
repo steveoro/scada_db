@@ -122,10 +122,10 @@ Options: [Rails.env=#{Rails.env}]
   Recreates the current DB from scratch.
 Invokes the following tasks in in one shot:
 
-  - db:reset           ...to clear the current DB (default: development);
+  - db:hard_reset      ...to clear the current DB (default: development);
   - db:migrate         ...to run migrations;
-  - sql:exec           ...to import the base seed files (/db/seed/*.sql);
-  - db:update_records  ...to pre-compute & fill the individual_records table;
+  - sql:exec           ...to import the base seed SQL files  (/db/seed/*.sql);
+  - db:seed            ...to import the base seed Ruby files (/db/seed.rb);
 
 Keep in mind that, when not in production, the test DB must then be updated
 using the db:clone_to_test dedicated task.
@@ -133,12 +133,14 @@ using the db:clone_to_test dedicated task.
 Options: [Rails.env=#{Rails.env}]
 
   DESC
-  task :rebuild_from_scratch do
+  task :rebuild_from_scratch => [
+    'utils:script_status', 'utils:chk_needed_dirs',
+    'db:hard_reset',
+    'db:migrate',
+    'sql:exec',
+    'db:seed'
+  ] do
     puts "*** Task: Compound DB RESET + MIGRATE + SQL:EXEC + DB:SEED ***"
-    Rake::Task['app:db:hard_reset'].invoke
-    Rake::Task['app:db:migrate'].invoke
-    Rake::Task['app:sql:exec'].invoke
-    Rake::Task['app:db:seed'].invoke
     puts "Done."
   end
   #-- -------------------------------------------------------------------------
@@ -510,8 +512,10 @@ DESC
     end
     Dir.chdir( Dir.pwd.to_s )
     puts "Truncating all current log files..."
-    Rake::Task['app:log:clear'].invoke
-    Rake::Task['app:utils:clear_output'].invoke
+    Rake::Task['app:log:clear'].invoke if Rake::Task.task_defined?('app:log:clear')
+    Rake::Task['log:clear'].invoke if Rake::Task.task_defined?('log:clear')
+    Rake::Task['app:utils:clear_output'].invoke if Rake::Task.task_defined?('app:utils:clear_output')
+    Rake::Task['utils:clear_output'].invoke if Rake::Task.task_defined?('utils:clear_output')
                                                     # Rotate the backups leaving only the newest ones: (log files are 3-times normal backups)
     rotate_backups( backup_folder, max_backups * 3 )
     puts "Done.\r\n\r\n"
@@ -533,8 +537,10 @@ DESC
     file_name     = APP_NAME + '-' + app_version + '.tar.bz2'
     FileUtils.makedirs(backup_folder) if ENV.include?("output_dir") # make sure overridden output folder exists, creating the subtree under app's root
 
-    Rake::Task['app:db:truncate_sessions'].invoke
-    Rake::Task['app:tmp:clear'].invoke
+    Rake::Task['app:db:truncate_sessions'].invoke if Rake::Task.task_defined?('app:db:truncate_sessions')
+    Rake::Task['db:truncate_sessions'].invoke if Rake::Task.task_defined?('db:truncate_sessions')
+    Rake::Task['app:tmp:clear'].invoke if Rake::Task.task_defined?('app:tmp:clear')
+    Rake::Task['tmp:clear'].invoke if Rake::Task.task_defined?('tmp:clear')
 
     puts "Creating #{file_name} under #{backup_folder}."
     Dir.chdir( backup_folder )
